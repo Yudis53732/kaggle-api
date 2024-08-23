@@ -2,6 +2,7 @@ Changelog
 ====
 ### 1.6.18
 * Fix KeyError when "Last-Modified" is not in the response.
+* The header for the second column of the output from "kaggle competitions files ..." changed from "size" to "totalBytes"
 
 ### 1.6.17
 

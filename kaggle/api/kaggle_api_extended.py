@@ -696,7 +696,7 @@ class KaggleApi(KaggleApi):
         return KaggleClient(env=env, verbose=verbose)
 
     def camel_to_snake(self, name):
-        """ TODO Remove this and rewrite field lists using snake case.
+        """
         :param name: field in camel case
         :return: field in snake case
         """
@@ -775,11 +775,9 @@ class KaggleApi(KaggleApi):
         ]
         if competitions:
             if csv_display:
-                self.print_csv(competitions,
-                               [self.camel_to_snake(f) for f in fields])
+                self.print_csv(competitions, fields)
             else:
-                self.print_table(competitions,
-                                 [self.camel_to_snake(f) for f in fields])
+                self.print_table(competitions, fields)
         else:
             print('No competitions found')
 
@@ -914,8 +912,8 @@ class KaggleApi(KaggleApi):
             submissions = self.competition_submissions(competition, page_token=page_token,
                                                        page_size=page_size)
             fields = [
-                'file_name', 'date', 'description', 'status', 'public_score', # Breaking change: column headers
-                'private_score'
+                'fileName', 'date', 'description', 'status', 'publicScore',
+                'privateScore'
             ]
             if submissions:
                 if csv_display:
@@ -976,7 +974,7 @@ class KaggleApi(KaggleApi):
             next_page_token = result.next_page_token
             if next_page_token:
                 print('Next Page Token = {}'.format(next_page_token))
-            fields = ['name', 'total_bytes', 'creation_date'] # Breaking change: column header
+            fields = ['name', 'totalBytes', 'creationDate'] # Breaking change: column header
             if result:
                 if csv_display:
                     self.print_csv(result.files, fields)
@@ -1160,7 +1158,7 @@ class KaggleApi(KaggleApi):
 
         if view:
             results = self.competition_leaderboard_view(competition)
-            fields = ['team_id', 'team_name', 'submission_date', 'score'] # Breaking change: column headers
+            fields = ['teamId', 'teamName', 'submissionDate', 'score']
             if results:
                 if csv_display:
                     self.print_csv(results, fields)
@@ -3835,9 +3833,9 @@ class KaggleApi(KaggleApi):
             return
         for f in fields:
             length = max(len(f),
-                         max([len(self.string(getattr(i, f))) for i in items]))
+                         max([len(self.string(getattr(i, self.camel_to_snake(f)))) for i in items]))
             justify = '>' if isinstance(getattr(
-                items[0], f), int) or f == 'size' or f == 'reward' else '<'
+                items[0], self.camel_to_snake(f)), int) or f == 'size' or f == 'reward' else '<'
             formats.append('{:' + justify + self.string(length + 2) + '}')
             borders.append('-' * length + '  ')
         row_format = u''.join(formats)
@@ -3845,7 +3843,7 @@ class KaggleApi(KaggleApi):
         print(row_format.format(*headers))
         print(row_format.format(*borders))
         for i in items:
-            i_fields = [self.string(getattr(i, f)) + '  ' for f in fields]
+            i_fields = [self.string(getattr(i, self.camel_to_snake(f))) + '  ' for f in fields]
             try:
                 print(row_format.format(*i_fields))
             except UnicodeEncodeError:
@@ -3862,7 +3860,7 @@ class KaggleApi(KaggleApi):
         writer = csv.writer(sys.stdout)
         writer.writerow(fields)
         for i in items:
-            i_fields = [self.string(getattr(i, f)) for f in fields]
+            i_fields = [self.string(getattr(i, self.camel_to_snake(f))) for f in fields]
             writer.writerow(i_fields)
 
     def string(self, item):
