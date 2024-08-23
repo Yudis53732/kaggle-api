@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Copyright 2024 Kaggle Inc
+# Copyright 2019 Kaggle Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -242,16 +242,16 @@ class ResumableFileUpload(object):
     def to_dict(self):
         return {
             'path':
-            self.path,
+                self.path,
             'start_blob_upload_request':
-            self.start_blob_upload_request.to_dict(),
+                self.start_blob_upload_request.to_dict(),
             'timestamp':
-            self.timestamp,
+                self.timestamp,
             'start_blob_upload_response':
-            self.start_blob_upload_response.to_dict()
-            if self.start_blob_upload_response is not None else None,
+                self.start_blob_upload_response.to_dict()
+                if self.start_blob_upload_response is not None else None,
             'upload_complete':
-            self.upload_complete,
+                self.upload_complete,
         }
 
     def from_dict(other, context):
@@ -420,7 +420,7 @@ class KaggleApi(KaggleApi):
                 config_data = self.read_config_file(config_data)
             elif self._is_help_or_version_command(api_command) or (len(
                     sys.argv) > 2 and api_command.startswith(
-                        self.command_prefixes_allowing_anonymous_access)):
+                self.command_prefixes_allowing_anonymous_access)):
                 # Some API commands should be allowed without authentication.
                 return
             else:
@@ -428,7 +428,7 @@ class KaggleApi(KaggleApi):
                               ' {}. Or use the environment method. See setup'
                               ' instructions at'
                               ' https://github.com/Kaggle/kaggle-api/'.format(
-                                  self.config_file, self.config_dir))
+                    self.config_file, self.config_dir))
 
         # Step 3: load into configuration!
         self._load_config(config_data)
@@ -1759,10 +1759,10 @@ class KaggleApi(KaggleApi):
                     self.process_response(
                         self.with_retry(
                             self.datasets_create_version_by_id_with_http_info)(
-                                id_no, request)))
+                            id_no, request)))
             else:
                 if ref == self.config_values[
-                        self.CONFIG_NAME_USER] + '/INSERT_SLUG_HERE':
+                    self.CONFIG_NAME_USER] + '/INSERT_SLUG_HERE':
                     raise ValueError(
                         'Default slug detected, please change values before '
                         'uploading')
@@ -1880,7 +1880,7 @@ class KaggleApi(KaggleApi):
 
         # validations
         if ref == self.config_values[
-                self.CONFIG_NAME_USER] + '/INSERT_SLUG_HERE':
+            self.CONFIG_NAME_USER] + '/INSERT_SLUG_HERE':
             raise ValueError(
                 'Default slug detected, please change values before uploading')
         if title == 'INSERT_TITLE_HERE':
@@ -2249,25 +2249,25 @@ class KaggleApi(KaggleApi):
         username = self.get_config_value(self.CONFIG_NAME_USER)
         meta_data = {
             'id':
-            username + '/INSERT_KERNEL_SLUG_HERE',
+                username + '/INSERT_KERNEL_SLUG_HERE',
             'title':
-            'INSERT_TITLE_HERE',
+                'INSERT_TITLE_HERE',
             'code_file':
-            'INSERT_CODE_FILE_PATH_HERE',
+                'INSERT_CODE_FILE_PATH_HERE',
             'language':
-            'Pick one of: {' +
-            ','.join(x for x in self.valid_push_language_types) + '}',
+                'Pick one of: {' +
+                ','.join(x for x in self.valid_push_language_types) + '}',
             'kernel_type':
-            'Pick one of: {' +
-            ','.join(x for x in self.valid_push_kernel_types) + '}',
+                'Pick one of: {' +
+                ','.join(x for x in self.valid_push_kernel_types) + '}',
             'is_private':
-            'true',
+                'true',
             'enable_gpu':
-            'false',
+                'false',
             'enable_tpu':
-            'false',
+                'false',
             'enable_internet':
-            'true',
+                'true',
             'dataset_sources': [],
             'competition_sources': [],
             'kernel_sources': [],
@@ -3509,8 +3509,8 @@ class KaggleApi(KaggleApi):
                 self.process_response(
                     self.with_retry(
                         self.models_create_instance_version_with_http_info)(
-                            owner_slug, model_slug, framework, instance_slug,
-                            request)))
+                        owner_slug, model_slug, framework, instance_slug,
+                        request)))
 
             return result
 
@@ -3980,9 +3980,9 @@ class KaggleApi(KaggleApi):
         """
         for file_name in os.listdir(folder):
             if (file_name in [
-                    self.DATASET_METADATA_FILE, self.OLD_DATASET_METADATA_FILE,
-                    self.KERNEL_METADATA_FILE, self.MODEL_METADATA_FILE,
-                    self.MODEL_INSTANCE_METADATA_FILE
+                self.DATASET_METADATA_FILE, self.OLD_DATASET_METADATA_FILE,
+                self.KERNEL_METADATA_FILE, self.MODEL_METADATA_FILE,
+                self.MODEL_INSTANCE_METADATA_FILE
             ]):
                 continue
             upload_file = self._upload_file_or_folder(folder, file_name,
@@ -4127,10 +4127,10 @@ class KaggleApi(KaggleApi):
                         fp.seek(start_at)
                         session.headers.update({
                             'Content-Length':
-                            '%d' % upload_size,
+                                '%d' % upload_size,
                             'Content-Range':
-                            'bytes %d-%d/%d' %
-                            (start_at, file_size - 1, file_size)
+                                'bytes %d-%d/%d' %
+                                (start_at, file_size - 1, file_size)
                         })
                     reader = TqdmBufferedReader(fp, progress_bar)
                     retries = Retry(total=10, backoff_factor=0.5)
@@ -4312,7 +4312,7 @@ class KaggleApi(KaggleApi):
 
             split = model_instance_version.split('/')
             if not split[0] or not split[1] or not split[2] or not split[
-                    3] or not split[4]:
+                3] or not split[4]:
                 raise ValueError(
                     'Invalid model instance version specification ' +
                     model_instance_version)
