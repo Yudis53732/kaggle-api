@@ -1,5 +1,8 @@
 Changelog
 ====
+### 1.6.18
+* Fix KeyError when "Last-Modified" is not in the response.
+
 ### 1.6.17
 
 * No changes; release 1.6.16 did not complete.
